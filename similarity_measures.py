@@ -1,6 +1,5 @@
 #python 3
 
-import keywords as key
 import normalizers as norm
 
 """
@@ -72,11 +71,4 @@ def similarity_score(a,b):
 	total_score = jaccard_similarity_coefficient_score + overlap_coefficient_score + total_char_similarity_score
 	
 	return total_score
-"""
-title = "The cat and the hat came back."
-result = "the boy answered the door and it was the cat in the hat."
-result = "The cat and the hat came back."
 
-print(jaccard_similarity_coefficient(result, title))
-print(overlap_coefficient(result, title))
-"""
