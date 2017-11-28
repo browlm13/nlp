@@ -28,7 +28,6 @@ from nltk.corpus import stopwords
 from nltk.tag import pos_tag
 from nltk import FreqDist
 
-
 def is_punctuation(word):
 	""" Return True if word is composed entirly of punctuation and whitespace """
 	if set(word) < set(string.punctuation + string.whitespace):
@@ -94,7 +93,8 @@ def compute_phrase_scores(phrase_list):
 	phrase_scores = {p:0 for p in phrase_list}
 	for phrase in phrase_list:
 		for word in extract_words(phrase):
-			phrase_scores[phrase] += word_scores[word]
+			try: phrase_scores[phrase] += word_scores[word]
+			except: pass
 	return phrase_scores
 
 def compute_sentence_scores(document):
@@ -126,6 +126,7 @@ def top_words(document, n=5):
 
 	n = min(len(word_scores), n)
 	return sorted(word_scores.items(), key=operator.itemgetter(1), reverse=True)[:n]
+	
 
 def top_phrases(document, n=5):
 	""" Return top n phrases after computing scores """
@@ -148,15 +149,32 @@ def top_sentences(document, n=2):
 #
 #	testing
 #
-text = """People in England who commit the most serious crimes of 
-animal cruelty could face up to five years in prison, the government has said.
-The move - an increase on the current six-month maximum sentence - follows a 
-number of cases where English courts wanted to hand down tougher sentences. Especially against tiger. tiger tiger tiger.
-Environment Secretary Michael Gove said it would target "those who commit the 
-most shocking cruelty towards animals". 23 people died today. 24 will have died tommorow. Mike Tyson fights tiger with a broom.
-The RSPCA said it would "deter people from abusing and neglecting animals"."""
+text = """Jared Kushner made a secret visit to Saudi Arabia last week with other officials from President Donald Trump’s administration for talks on peace in the Middle East.
 
+The president’s son-in-law and senior adviser made what was his third trip to the Gulf kingdom this year alone, Politico reported, citing a White House official.
 
-print(top_phrases(text))
-print(top_words(text))
-print(top_sentences(text))
+Kushner traveled commercially on Wednesday and was in the country with Trump’s Middle East envoy Jason Greenblatt and deputy national security adviser Dina Powell. It remains unclear whom they met with on their trip.
+The visit was part of an ongoing regional effort by the White House to draw the influential powers in the Middle East into helping with the peace process between Israel and the Palestinians, a decades-long conflict in which negotiations have remained dormant for years.
+
+“While these regional talks will play an important role, the president reaffirms that peace between Israelis and Palestinians can only be negotiated directly between the two parties and that the United States will continue working closely with the parties to make progress toward that goal,” the White House official told Politico in a statement.
+
+“No deal will be imposed on Israelis and Palestinians. We are committed to facilitating a deal that improves conditions for both parties.”
+Trump has tasked Kushner with sowing the seeds of peace in the Middle East, and Kushner was instrumental to a $110 billion arms deal signed between Washington and Riyadh in May, when Trump and a presidential delegation paid a visit to the country.
+
+Both Kushner and Greenblatt have embarked on a period of shuttle diplomacy across the Middle East, from Amman to Jerusalem, Ramallah, Dubai and Cairo, since Trump’s January 20 inauguration.
+
+To that end, the US is trying to prevent Israel’s right wing from taking unilateral measures that could harm any chance of reviving peace negotiations, which have been moribund since they last collapsed in 2014.
+
+Israeli lawmakers were set to vote on legislation for a “Greater Jerusalem” on Sunday, in which several West Bank settlements would come under the responsibility of the Jerusalem municipality. The legislation was set to pass and set off the process of ratification. The international community deems the settlements, built on land Palestinians have earmarked for any future sovereign state, to be illegal.
+
+But the bill was delayed after US pressure for fear that it would hamper any hopes of peace with the Palestinians, according to right-wing lawmaker David Bitan, chairman of Israeli Prime Minister Benjamin Netanyahu’s ruling coalition.
+
+“There is American pressure that claims this is about annexation and that this could interfere with the peace process,” Bitan told Army Radio.
+
+“The prime minister doesn’t think this is about annexation. I don’t think so either. We have to take the time to clarify matters to the Americans. Therefore, if the bill passes in a week, or in a month, it’s less problematic,” he said.
+
+"""
+
+#print(top_phrases(text))
+#print(top_words(text))
+#print(top_sentences(text))

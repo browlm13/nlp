@@ -21,11 +21,10 @@ import logging
 
 # mylib
 from rake_sentence_ranking import *
+#import normalizers as norm
 
 # external
 from newspaper import Article
-
-
 
 
 #
@@ -34,8 +33,6 @@ from newspaper import Article
 
 path = 'data_set/'
 subreddit = 'worldnews'
-
-
 
 # logging
 logging.basicConfig(level=logging.INFO)
@@ -66,20 +63,23 @@ def save_subreddit_to_dir(subreddit, directory):
 	)
 
 	for post in r.json()['data']['children']:
-		title = post['data']['title']
-		url = post['data']['url']
-		fname = file_title(title, subreddit)
+		try:
+			title = post['data']['title']
+			url = post['data']['url']
+			fname = file_title(title, subreddit)
 
-		article = Article(url)
-		article.download()
-		article.parse()
-		text = article.text
+			article = Article(url)
+			article.download()
+			article.parse()
+			text = article.text
 
-		f = {'title': title, 'url':url, 'text':text}
+			f = {'title': title, 'url':url, 'text':text}
 
-		logger.info('Creating File: %s' % (directory + fname))
-		with open(directory + fname, 'w+') as outfile:
-			json.dump(f, outfile)
+			logger.info('Creating File: %s' % (directory + fname))
+			with open(directory + fname, 'w+') as outfile:
+				json.dump(f, outfile)
+		except:
+			logger.debug('failure in save_subreddit_to_dir')
 
 	logger.info('Subreddit Scrapping Complete.')
 
